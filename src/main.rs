@@ -1,10 +1,4 @@
-use iced::time;
-use iced::widget::Row;
-use iced::Application;
-use iced::widget::{Button, Column, Container, Text};
-use iced::Command;
-use iced::{Alignment, Element, Length, Subscription};
-use iced::Settings;
+use iced::{Alignment, Element, Length, Subscription, Command, Application, time, Settings, Theme, executor, widget::{Row, Column, Button, Container, Text}};
 use std::time::{Duration, Instant};
 
 fn main() -> iced::Result {
@@ -15,7 +9,6 @@ fn main() -> iced::Result {
             ..iced::window::Settings::default()
         },
         ..Settings::default()
-    
     })
 }
 
@@ -51,8 +44,8 @@ enum PomodoroMessage {
 
 impl Application for Pomodoro {
     type Message = PomodoroMessage;
-    type Theme = iced::Theme;
-    type Executor = iced::executor::Default;
+    type Theme = Theme;
+    type Executor = executor::Default;
     type Flags = ();
 
     fn new(_flags: ()) -> (Pomodoro, iced::Command<PomodoroMessage>) {
@@ -151,5 +144,9 @@ impl Application for Pomodoro {
         let lower_row = Row::new().width(Length::Fill).height(Length::FillPortion(1)).spacing(2).push(start_or_pause_or_resume_button).push(reset_button);
         let col = Column::new().push(upper_row).push(middle_row).push(lower_row);
         Container::new(col).width(Length::Fill).height(Length::Fill).center_x().center_y().into()
+    }
+
+    fn theme(&self) -> Theme {
+        iced::Theme::Dark
     }
 }
